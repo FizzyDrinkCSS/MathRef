@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Nerd Math Hub 📚</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css">
+  <style>
+    :root{--accent:#6cbc8b;--muted:#767680}
+    html,body{height:100%;margin:0;background:
+      repeating-linear-gradient(#e1e1e1 0 1px, #f8f8f8 1px 40px),
+      repeating-linear-gradient(90deg,#e1e1e1 0 1px,#f8f8f8 1px 40px);
+      font-family:Arial, Helvetica, sans-serif;color:#222}
+    header{background:#eaeaea;padding:14px 10px;text-align:center;border-bottom:3px double #cfcfcf}
+    #main-wrap{display:flex;gap:18px;max-width:1200px;margin:18px auto;padding:0 12px}
+    #sidebar{width:250px;background:rgba(245,247,255,0.9);border:1px solid #d6ddf9;border-radius:8px;padding:10px}
+    #sidebar details{margin-bottom:8px}
+    #sidebar summary{font-weight:700;padding:6px;border-radius:6px;background:#f5f7ff;cursor:pointer}
+    #sidebar button{display:block;width:100%;text-align:left;margin:6px 0;padding:8px;border-radius:6px;border:1px solid #dfe7ee;background:#fbfbd0;cursor:pointer}
+    #sidebar .sidebtn{background:none;border:none;color:#246;font-weight:700;text-decoration:underline;padding:6px 0}
+    #maincontent{flex:1;min-width:0}
+    #searchbar-container{display:flex;justify-content:center;gap:8px;margin:10px}
+    #searchbar{width:72%;max-width:520px;padding:10px;border-radius:8px;border:2px solid #c9d1ff}
+    #search-results{max-width:820px;margin:6px auto 0;display:none;background:#fff7ed;border:1px solid #f0d9c1;border-radius:8px;padding:8px 12px}
+    main{background:#fff;padding:18px;border-radius:12px;border:1px solid #ddd;box-shadow:0 6px 20px rgba(0,0,0,0.05)}
+    h2{margin:8px 0 12px;font-size:1.25rem;border-bottom:1px dashed #e2e2e2;padding-bottom:8px}
+    .tool{display:none}
+    .tool.active{display:block}
+    label{display:block;font-weight:700;margin-top:10px}
+    input[type="text"],input[type="number"],textarea,select{width:100%;padding:8px;border-radius:8px;border:1px solid #cfcfcf;background:#fbfdff;box-sizing:border-box}
+    .short{width:8.4em;display:inline-block;margin-right:8px}
+    button.action{background:var(--accent);color:#063;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}
+    .result,.output{background:#fffbe8;border:1px dotted #c7c3b6;padding:8px;border-radius:6px;white-space:pre-wrap;margin-top:8px;font-family:monospace}
+    .secondary-note{color:var(--muted);font-size:0.95rem;margin-top:8px}
+    textarea.notebook{min-height:120px}
+    code.inline{background:#eef;padding:0.08em 0.24em;border-radius:4px;font-family:monospace}
+    @media(max-width:980px){#main-wrap{flex-direction:column;padding:0 8px}#sidebar{width:100%}}
+  </style>
+</head>
+<body>
+<header>
+  <div style="font-size:1.25rem;font-weight:700">Nerd Math Hub 📚</div>
+  <div style="font-size:0.92rem;color:#666">Formulas, tools and advanced links — all in one single-file app</div>
+</header>
+
+<div id="searchbar-container">
+  <input id="searchbar" placeholder="Search formulas and tools (type 2+ chars)" />
+  <button id="search-btn">Search</button>
+</div>
+<div id="search-results" aria-live="polite"></div>
+
+<div id="main-wrap">
+  <nav id="sidebar" aria-label="Navigation">
+    <details open><summary>Algebra</summary>
+      <button onclick="show('formulas')">Formula Compendium</button>
+      <button onclick="show('calc')">Calculator</button>
+      <button onclick="show('quad')">Quadratic Solver</button>
+      <button onclick="show('factoring')">Factorizer</button>
+      <button onclick="show('gcf')">GCF / LCM</button>
+      <button onclick="show('fraction')">Fraction Simplifier</button>
+      <button onclick="show('seq')">Sequence Finder</button>
+      <button onclick="show('decimal')">Decimal → Fraction</button>
+    </details>
+    <details><summary>Functions & Calculus</summary>
+      <button onclick="show('derivative')">Derivative (polynomial)</button>
+      <button onclick="show('graph')">Graph Plotter</button>
+      <button onclick="show('matrix')">Matrix Tools</button>
+      <button onclick="show('eigen')">2×2 Eigenvalues</button>
+      <button onclick="show('complex')">Complex Calculator</button>
+    </details>
+    <details><summary>Geometry & Trig</summary>
+      <button onclick="triangleGate()">Triangle Solver (locked)</button>
+      <button onclick="show('percent')">Percent Calculator</button>
+    </details>
+    <details><summary>Stats / Prob</summary>
+      <button onclick="show('stat')">Statistics</button>
+      <button onclick="show('prob')">Combinatorics</button>
+      <button onclick="show('prime')">Prime Finder</button>
+    </details>
+    <details><summary>Science & Units</summary>
+      <button onclick="show('phys')">Physics Solver</button>
+      <button onclick="show('unit')">Unit Converter</button>
+    </details>
+    <details><summary>Advanced & Fun</summary>
+      <button onclick="show('eigen')">Eigenvalues</button>
+      <button onclick="show('primeproof')">Euclid Prime Proof</button>
+      <button onclick="show('latex')">LaTeX Demo</button>
+      <button onclick="show('plot3d')">3D Surface Demo</button>
+    </details>
+    <details><summary>Notes & Links</summary>
+      <button onclick="show('notebook')">Nerd Notes</button>
+      <button onclick="show('college')">College Links</button>
+    </details>
+  </nav>
+
+  <div id="maincontent">
+    <main>
+      <!-- FORMULAS -->
+      <section id="formulas-section" class="tool">
+        <h2>Formula Compendium</h2>
+        <div>
+          <details open><summary>Algebra</summary>
+            <ul>
+              <li><b>Quadratic Formula:</b> <code class="inline">x = [-b ± √(b²-4ac)] / (2a)</code></li>
+              <li><b>Vieta:</b> <code class="inline">r₁+r₂ = -b/a, r₁r₂ = c/a</code></li>
+              <li><b>Discriminant:</b> <code class="inline">D = b² - 4ac</code></li>
+              <li><b>Factor:</b> <code class="inline">a²-b²=(a-b)(a+b)</code></li>
+              <li><b>Binomial:</b> <code class="inline">(a+b)^n = Σ C(n,k) a^{n-k} b^k</code></li>
+            </ul>
+          </details>
+          <details><summary>Geometry</summary>
+            <ul>
+              <li><b>Circle area:</b> <code class="inline">A = πr²</code></li>
+              <li><b>Triangle area:</b> <code class="inline">A = ½ b h</code></li>
+              <li><b>Heron:</b> <code class="inline">A = √[s(s-a)(s-b)(s-c)]</code></li>
+            </ul>
+          </details>
+          <details><summary>Trigonometry</summary>
+            <ul>
+              <li><b>SOHCAHTOA</b>: <code class="inline">sin=opp/hyp, cos=adj/hyp, tan=opp/adj</code></li>
+              <li><b>Law of Sines:</b> <code class="inline">sinA/a = sinB/b = sinC/c</code></li>
+              <li><b>Law of Cosines:</b> <code class="inline">c²=a²+b²-2ab cos C</code></li>
+            </ul>
+          </details>
+          <details><summary>Calculus</summary>
+            <ul>
+              <li><b>Power Rule:</b> <code class="inline">d/dx xⁿ = n x^{n-1}</code></li>
+              <li><b>Product Rule:</b> <code class="inline">d(uv)=u'v+uv'</code></li>
+              <li><b>Chain Rule:</b> <code class="inline">d/dx f(g(x)) = f'(g(x)) g'(x)</code></li>
+              <li><b>Integral:</b> <code class="inline">∫ xⁿ dx = x^{n+1}/(n+1) + C</code></li>
+            </ul>
+          </details>
+          <details><summary>Linear Algebra</summary>
+            <ul>
+              <li><b>Det 2×2:</b> <code class="inline">det([[a,b],[c,d]]) = ad - bc</code></li>
+              <li><b>Eigen:</b> <code class="inline">det(A - λI) = 0</code></li>
+            </ul>
+          </details>
+          <details><summary>Statistics</summary>
+            <ul>
+              <li><b>Mean:</b> <code class="inline">μ = Σxᵢ / n</code></li>
+              <li><b>Variance:</b> <code class="inline">σ² = Σ(xᵢ - μ)² / n</code></li>
+              <li><b>Combinations:</b> <code class="inline">C(n,k) = n! / (k!(n-k)!)</code></li>
+            </ul>
+          </details>
+        </div>
+      </section>
+
+      <!-- CALCULATOR -->
+      <section id="calc-section" class="tool">
+        <h2>Calculator</h2>
+        <label>Expression (JS-like: ^ for power):</label>
+        <input id="calc-expr" placeholder="e.g. (7+5)/2 * 10 - 3^2" />
+        <button class="action" onclick="evalCalc()">Calculate</button>
+        <div class="result" id="calc-result"></div>
+      </section>
+
+      <!-- QUADRATIC -->
+      <section id="quad-section" class="tool">
+        <h2>Quadratic Solver</h2>
+        <label>ax² + bx + c = 0</label>
+        <input id="quad-a" class="short" type="number" value="1"> 
+        <input id="quad-b" class="short" type="number" value="0"> 
+        <input id="quad-c" class="short" type="number" value="0">
+        <button class="action" onclick="solveQuad()">Solve</button>
+        <div class="result" id="quad-result"></div>
+      </section>
+
+      <!-- FACTOR -->
+      <section id="factoring-section" class="tool">
+        <h2>Integer Factorizer</h2>
+        <label>Integer ≥ 2</label>
+        <input id="factoring-n" type="number" value="60" />
+        <button class="action" onclick="factor()">Factorize</button>
+        <div class="result" id="factoring-result"></div>
+      </section>
+
+      <!-- GCF/LCM -->
+      <section id="gcf-section" class="tool">
+        <h2>GCF &amp; LCM</h2>
+        <label>Numbers (comma or space separated)</label>
+        <input id="gcf-a" value="12, 16, 36" />
+        <button class="action" onclick="getGcfLcm()">Calculate</button>
+        <div class="result" id="gcf-result"></div>
+      </section>
+
+      <!-- FRACTION -->
+      <section id="fraction-section" class="tool">
+        <h2>Fraction Simplifier</h2>
+        <label>Numerator / Denominator</label>
+        <input id="frac-num" type="number" value="24" class="short" />
+        <input id="frac-den" type="number" value="36" class="short" />
+        <button class="action" onclick="simplifyFraction()">Simplify</button>
+        <div class="result" id="frac-result"></div>
+      </section>
+
+      <!-- SEQUENCE -->
+      <section id="seq-section" class="tool">
+        <h2>Sequence Finder</h2>
+        <label>Numbers (comma / space)</label>
+        <input id="seq-input" value="2, 4, 6, 8, 10" />
+        <button class="action" onclick="sequenceTool()">Analyze</button>
+        <div class="result" id="seq-result"></div>
+      </section>
+
+      <!-- DECIMAL->FRACTION -->
+      <section id="decimal-section" class="tool">
+        <h2>Decimal → Fraction</h2>
+        <input id="decval" type="number" step="any" value="0.75" />
+        <button class="action" onclick="decToFrac()">Convert</button>
+        <div class="result" id="decfrac-result"></div>
+      </section>
+
+      <!-- DERIVATIVE -->
+      <section id="derivative-section" class="tool">
+        <h2>Polynomial Derivative (simple polynomials in x)</h2>
+        <label>Example: 3x^3 - 2x^2 + x - 5</label>
+        <input id="deriv-expr" value="3x^3 - 2x^2 + x - 5" />
+        <button class="action" onclick="derivPoly()">d/dx</button>
+        <div class="result" id="deriv-result"></div>
+      </section>
+
+      <!-- GRAPH -->
+      <section id="graph-section" class="tool">
+        <h2>Graph Plotter (2D)</h2>
+        <label>y = f(x)  (JS-like: sin(x), cos, sqrt, ln, pi, e)</label>
+        <input id="graph-f" value="sin(x)" />
+        <label>From / To</label>
+        <input id="graph-minx" class="short" type="number" value="-7" /> <input id="graph-maxx" class="short" type="number" value="7" />
+        <button class="action" onclick="drawPlot()">Plot</button>
+        <div style="margin-top:8px">
+          <canvas id="graph-canvas" width="680" height="320" style="background:#f7faf4;border:1px solid #a8b9b7;border-radius:8px"></canvas>
+        </div>
+        <div id="graph-msg" class="result"></div>
+      </section>
+
+      <!-- MATRIX -->
+      <section id="matrix-section" class="tool">
+        <h2>Matrix Tools</h2>
+        <label>Matrix (rows separated by ;, entries by space): e.g. 1 2; 3 4</label>
+        <input id="matrix-input" value="1 2; 3 4" />
+        <label>Operation</label>
+        <select id="matrix-op"><option value="det">Determinant</option><option value="trans">Transpose</option></select>
+        <button class="action" onclick="matrixTool()">Calculate</button>
+        <div class="result" id="matrix-result"></div>
+      </section>
+
+      <!-- EIGEN -->
+      <section id="eigen-section" class="tool">
+        <h2>2×2 Eigenvalues &amp; Eigenvectors</h2>
+        <label>Matrix: e.g. 2 1; 1 2</label>
+        <input id="eigen-matrix" value="2 1; 1 2" />
+        <button class="action" onclick="eigen2x2()">Compute</button>
+        <div class="result" id="eigen-output"></div>
+      </section>
+
+      <!-- COMPLEX -->
+      <section id="complex-section" class="tool">
+        <h2>Complex Number Calculator</h2>
+        <label>z1 = a + bi, z2 = c + di</label>
+        <input id="complex-r1" class="short" type="number" value="1"> <input id="complex-i1" class="short" type="number" value="2"><br>
+        <input id="complex-r2" class="short" type="number" value="3"> <input id="complex-i2" class="short" type="number" value="4">
+        <select id="complex-op"><option value="add">Add</option><option value="sub">Subtract</option><option value="mul">Multiply</option><option value="div">Divide</option></select>
+        <button class="action" onclick="complexCalc()">Compute</button>
+        <div class="result" id="complex-result"></div>
+      </section>
+
+      <!-- TRIANGLE (locked by gate) -->
+      <section id="triangle-section" class="tool">
+        <h2>Triangle Solver (SSS, SAS, ASA, AAS, SSA)</h2>
+        <div class="secondary-note">Label sides a,b,c opposite angles A,B,C. Provide any 3 known values, at least one side.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input id="tri_a" class="short" placeholder="a (side)" type="number" />
+          <input id="tri_b" class="short" placeholder="b (side)" type="number" />
+          <input id="tri_c" class="short" placeholder="c (side)" type="number" />
+          <input id="tri_A" class="short" placeholder="A°" type="number" />
+          <input id="tri_B" class="short" placeholder="B°" type="number" />
+          <input id="tri_C" class="short" placeholder="C°" type="number" />
+        </div>
+        <div style="margin-top:8px"><button class="action" onclick="solveTriangleAll()">Solve</button></div>
+        <div class="result" id="tria-all-result"></div>
+      </section>
+
+      <!-- PERCENT -->
+      <section id="percent-section" class="tool">
+        <h2>Percentage Calculator</h2>
+        <div>What is <input id="perc-part" class="short" type="number" value="30">% of <input id="perc-whole" class="short" type="number" value="60">? <button class="action" onclick="percentCalc()">Go</button></div>
+        <div class="result" id="percent-result"></div>
+        <hr>
+        <div><input id="perc-num" class="short" type="number" value="18"> is what percent of <input id="perc-total" class="short" type="number" value="72">? <button class="action" onclick="percentCalc2()">Go</button></div>
+        <div class="result" id="percent2-result"></div>
+      </section>
+
+      <!-- STATS -->
+      <section id="stat-section" class="tool">
+        <h2>Statistics Toolbox</h2>
+        <label>Numbers (comma / space)</label>
+        <input id="stat-numbers" value="4,6,7,8,9,9,10,12" />
+        <button class="action" onclick="statTool()">Compute</button>
+        <div class="result" id="stat-result"></div>
+      </section>
+
+      <!-- PROB -->
+      <section id="prob-section" class="tool">
+        <h2>Combinatorics</h2>
+        <div>Combinations C(n,r): n=<input id="comb-n" class="short" type="number" value="5"> r=<input id="comb-r" class="short" type="number" value="2"><button class="action" onclick="doComb()">C(n,r)</button></div>
+        <div>Permutations P(n,r): n=<input id="perm-n" class="short" type="number" value="5"> r=<input id="perm-r" class="short" type="number" value="2"><button class="action" onclick="doPerm()">P(n,r)</button></div>
+        <div class="result" id="prob-result"></div>
+      </section>
+
+      <!-- PRIMES -->
+      <section id="prime-section" class="tool">
+        <h2>Prime Finder</h2>
+        <div>From <input id="prime-from" class="short" type="number" value="1"> to <input id="prime-to" class="short" type="number" value="100"><button class="action" onclick="findPrimes()">Find</button></div>
+        <div class="result" id="prime-result"></div>
+      </section>
+
+      <!-- UNITS -->
+      <section id="unit-section" class="tool">
+        <h2>Unit Converter (length/mass basics)</h2>
+        <input id="unit-value" type="number" value="1" class="short" />
+        <select id="unit-from">
+          <option value="m">m</option><option value="km">km</option><option value="cm">cm</option><option value="mi">mi</option><option value="ft">ft</option><option value="in">in</option>
+        </select>
+        to
+        <select id="unit-to">
+          <option value="m">m</option><option value="km">km</option><option value="cm">cm</option><option value="mi">mi</option><option value="ft">ft</option><option value="in">in</option>
+        </select>
+        <button class="action" onclick="convertUnits()">Convert</button>
+        <div class="result" id="unit-result"></div>
+      </section>
+
+      <!-- PHYSICS -->
+      <section id="phys-section" class="tool">
+        <h2>Physics Formula Solver (simple)</h2>
+        <label>Equation</label>
+        <select id="phys-eq">
+          <option value="fma">F = m a</option>
+          <option value="pe">PE = m g h</option>
+          <option value="ke">KE = ½ m v²</option>
+          <option value="ohm">V = I R</option>
+        </select>
+        <label>Provide variables as comma list, unknown as ?  e.g. m=10,a=2,F=?</label>
+        <input id="phys-vars" value="m=10,a=2,F=?" />
+        <button class="action" onclick="physSolver()">Solve</button>
+        <div class="result" id="phys-result"></div>
+      </section>
+
+      <!-- NOTEBOOK -->
+      <section id="notebook-section" class="tool">
+        <h2>Nerd Notes</h2>
+        <textarea id="notebook" class="notebook" placeholder="Local notes..."></textarea>
+        <div style="margin-top:8px"><button class="action" onclick="saveNotes()">Save</button> <button class="action" onclick="clearNotes()">Clear</button></div>
+        <div id="notes-msg" class="output"></div>
+      </section>
+
+      <!-- COLLEGE LINKS -->
+      <section id="college-section" class="tool">
+        <h2>College / Advanced Links</h2>
+        <ul>
+          <li><a href="https://ocw.mit.edu/courses/mathematics/" target="_blank">MIT OCW — Mathematics</a></li>
+          <li><a href="https://mathworld.wolfram.com/" target="_blank">Wolfram MathWorld</a></li>
+          <li><a href="https://arxiv.org/list/math/new" target="_blank">arXiv — Math</a></li>
+        </ul>
+      </section>
+
+      <!-- PRIME PROOF -->
+      <section id="primeproof-section" class="tool">
+        <h2>Euclid: Infinitely Many Primes (step)</h2>
+        <label>List primes (comma):</label>
+        <input id="pp-primes" value="2,3,5" />
+        <button class="action" onclick="primeProofStep()">Compute Q = product + 1</button>
+        <div id="pp-Q" class="result"></div>
+        <div id="pp-result" class="result"></div>
+      </section>
+
+      <!-- LaTeX -->
+      <section id="latex-section" class="tool">
+        <h2>LaTeX Demo (KaTeX)</h2>
+        <textarea id="latex-input">\sum_{n=1}^\infty 1/n^2 = \pi^2/6</textarea>
+        <button class="action" onclick="renderLatex()">Render</button>
+        <div id="latex-output" class="result" style="font-size:1.1rem"></div>
+      </section>
+
+      <!-- 3D Plot demo -->
+      <section id="plot3d-section" class="tool">
+        <h2>3D Surface Demo (visual)</h2>
+        <label>f(x,y) example: sin(x)*cos(y)</label>
+        <input id="plot3d-f" value="sin(x)*cos(y)" />
+        <button class="action" onclick="plot3d()">Render</button>
+        <canvas id="plot3d-canvas" width="320" height="320" style="border:1px solid #cfe;border-radius:8px;margin-top:8px"></canvas>
+      </section>
+
+      <!-- triangle unlock gate (overlay area shown when triggered) -->
+      <div id="triangle-gate" class="tool" style="display:none;margin-top:12px;padding:12px;border-radius:8px;border:1px solid #cfc;background:#FCFFF3">
+        <h3>Solve this trig question to unlock the Triangle Solver</h3>
+        <div id="trig-question" style="font-weight:700;margin:8px 0"></div>
+        <input id="trig-user-answer" class="short" />
+        <button class="action" onclick="checkTrigAnswer()">Check</button>
+        <div id="trig-feedback" class="result"></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<footer style="text-align:center;padding:16px;color:#666">
+  &copy; 2026 Nerd Math Hub — Single-file demo
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.js"></script>
+<script>
+/* ---------------------------
+   Utilities & navigation
+   --------------------------- */
+function idFor(name){
+  if(!name) return null;
+  return name.endsWith('-section')?name: (name + '-section');
+}
+function show(name){
+  // hide gate if showing other tools
+  document.getElementById('triangle-gate').style.display='none';
+  const targetId = idFor(name);
+  document.querySelectorAll('main .tool').forEach(el=>{
+    el.classList.remove('active');
+    // keep gate hidden separately
+  });
+  const target = document.getElementById(targetId);
+  if(target){
+    target.classList.add('active');
+    target.scrollIntoView({behavior:'smooth',block:'start'});
+  } else {
+    console.warn('No section',targetId);
+  }
+  // ensure formulas visible on show('formulas')
+  if(targetId==='formulas-section'){
+    document.getElementById('formulas-section').classList.add('active');
+  }
+}
+
+/* ---------------------------
+   Build search index (formulas + tools)
+   --------------------------- */
+let searchIndex = [];
+function buildIndex(){
+  searchIndex = [];
+  // Tools: each top-level section with h2
+  document.querySelectorAll('main > section[id]').forEach(sec=>{
+    const h = sec.querySelector('h2');
+    if(!h) return;
+    const label = h.innerText.trim();
+    const id = sec.id;
+    const text = sec.innerText.replace(/\s+/g,' ').trim();
+    searchIndex.push({type:'tool', id, label, text});
+  });
+  // Formulas: each li inside formulas-section
+  document.querySelectorAll('#formulas-section li').forEach((li,idx)=>{
+    const txt = li.innerText.trim();
+    searchIndex.push({type:'formula', id:'formulas-section', label:txt, text:txt, liIndex:idx});
+  });
+}
+
+/* ---------------------------
+   Search UI
+   --------------------------- */
+const searchBar = document.getElementById('searchbar');
+const searchResults = document.getElementById('search-results');
+document.getElementById('search-btn').addEventListener('click', triggerSearch);
+
+function triggerSearch(){
+  liveSearch();
+}
+function liveSearch(){
+  const q = searchBar.value.trim().toLowerCase();
+  if(q.length < 2){
+    searchResults.style.display = 'none';
+    searchResults.innerHTML = '';
+    return;
+  }
+  const hits = searchIndex.filter(e => e.text.toLowerCase().includes(q) || e.label.toLowerCase().includes(q));
+  if(hits.length === 0){
+    searchResults.innerHTML = '<div style="padding:8px">No results</div>';
+    searchResults.style.display = 'block';
+    return;
+  }
+  const html = hits.slice(0,40).map(h=>{
+    if(h.type==='tool'){
+      return `<div style="padding:6px 0">
+        <a href="#" data-id="${h.id}" onclick="searchJump(event,'${h.id}')">Tool: ${h.label}</a>
+      </div>`;
+    } else {
+      // formula result - scroll to formulas and highlight the li
+      const labelEsc = escapeHtml(h.label);
+      return `<div style="padding:6px 0">
+        <a href="#" data-id="${h.id}" onclick="searchJumpFormula(event, ${h.liIndex})">Formula: ${labelEsc}</a>
+      </div>`;
+    }
+  }).join('');
+  searchResults.innerHTML = html;
+  searchResults.style.display = 'block';
+}
+function searchJump(ev,id){
+  ev.preventDefault();
+  show(id.replace('-section',''));
+  // scroll target into view
+  const target = document.getElementById(id);
+  if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+  searchResults.style.display = 'none';
+}
+function searchJumpFormula(ev, liIndex){
+  ev.preventDefault();
+  // show formulas section
+  show('formulas');
+  // expand and scroll to the specific li
+  const lis = document.querySelectorAll('#formulas-section li');
+  if(lis && lis[liIndex]){
+    // flash highlight
+    const el = lis[liIndex];
+    el.scrollIntoView({behavior:'smooth',block:'center'});
+    el.style.transition = 'background-color 0.6s';
+    const old = el.style.backgroundColor;
+    el.style.backgroundColor = '#fffbcc';
+    setTimeout(()=>el.style.backgroundColor = old,1400);
+  }
+  searchResults.style.display='none';
+}
+function escapeHtml(s){ return s.replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]); }
+
+/* ---------------------------
+   Tools implementations
+   (Complete working functions)
+   --------------------------- */
+
+/* Calculator */
+function evalCalc(){
+  const input = document.getElementById('calc-expr').value.trim();
+  const out = document.getElementById('calc-result');
+  if(!input){ out.textContent = 'Enter an expression'; return; }
+  try{
+    // replace ^ with ** and basic tokens with Math.
+    let expr = input.replace(/\^/g,'**');
+    expr = expr.replace(/\bpi\b/ig,'Math.PI').replace(/\be\b/g,'Math.E');
+    expr = expr.replace(/\b(sin|cos|tan|asin|acos|atan|sqrt|abs|log|ln|exp|floor|ceil|round)\b/ig, function(m){
+      if(m.toLowerCase()==='ln') return 'Math.log';
+      if(m.toLowerCase()==='log') return 'Math.log10';
+      return 'Math.'+m;
+    });
+    const val = Function('"use strict";return ('+expr+')')();
+    out.textContent = (typeof val==='number' && isFinite(val)) ? '= '+val : 'Result: '+String(val);
+  } catch(e){
+    out.textContent = 'Error: '+e.message;
+  }
+}
+
+/* Quadratic */
+function solveQuad(){
+  const a = parseFloat(document.getElementById('quad-a').value);
+  const b = parseFloat(document.getElementById('quad-b').value);
+  const c = parseFloat(document.getElementById('quad-c').value);
+  const out = document.getElementById('quad-result');
+  if(isNaN(a)||isNaN(b)||isNaN(c)){out.textContent='Enter valid numbers';return;}
+  if(a===0){
+    if(b===0) out.textContent = (c===0)? 'Infinite solutions' : 'No solution';
+    else out.textContent = 'Linear: x = '+(-c/b);
+    return;
+  }
+  const D = b*b - 4*a*c;
+  if(D>0){
+    const r1 = (-b + Math.sqrt(D))/(2*a);
+    const r2 = (-b - Math.sqrt(D))/(2*a);
+    out.textContent = `D=${D}\nx1=${r1}\nx2=${r2}`;
+  } else if(D===0){
+    out.textContent = `D=0\nx=${-b/(2*a)}`;
+  } else {
+    const re = -b/(2*a), im = Math.sqrt(-D)/(2*a);
+    out.textContent = `Complex roots:\n${re} ± ${im}i`;
+  }
+}
+
+/* Factorization */
+function factor(){
+  let n = parseInt(document.getElementById('factoring-n').value,10);
+  const out = document.getElementById('factoring-result');
+  if(isNaN(n) || n < 2){ out.textContent='Enter integer ≥ 2'; return; }
+  const orig = n;
+  const factors = [];
+  for(let p=2; p*p<=n; p++){
+    while(n%p===0){ factors.push(p); n/=p; }
+  }
+  if(n>1) factors.push(n);
+  out.textContent = `${orig} = ${factors.join(' × ')}`;
+}
+
+/* GCF & LCM */
+function getGcfLcm(){
+  const raw = document.getElementById('gcf-a').value;
+  const arr = raw.replace(/,/g,' ').split(/\s+/).map(Number).filter(x=>!isNaN(x) && x>0);
+  const out = document.getElementById('gcf-result');
+  if(arr.length<2){ out.textContent='Enter at least 2 positive integers'; return; }
+  const gcd = (a,b)=> b ? gcd(b,a%b) : a;
+  const lcm = (a,b)=> a/gcd(a,b)*b;
+  const g = arr.reduce((a,b)=>gcd(a,b));
+  const L = arr.reduce((a,b)=>lcm(a,b));
+  out.textContent = `GCF = ${g}\nLCM = ${L}`;
+}
+
+/* Fraction Simplify */
+function simplifyFraction(){
+  let num = parseInt(document.getElementById('frac-num').value,10);
+  let den = parseInt(document.getElementById('frac-den').value,10);
+  const out = document.getElementById('frac-result');
+  if(isNaN(num)||isNaN(den)||den===0){ out.textContent='Invalid'; return; }
+  const gcd = (a,b)=> b ? gcd(b,a%b) : a;
+  const g = gcd(Math.abs(num),Math.abs(den));
+  num/=g; den/=g;
+  if(den<0){ num=-num; den=-den; }
+  out.textContent = (den===1) ? `${num}` : `${num}/${den}`;
+}
+
+/* Sequence analyzer */
+function sequenceTool(){
+  const raw = document.getElementById('seq-input').value;
+  const arr = raw.replace(/,/g,' ').split(/\s+/).map(Number).filter(x=>!isNaN(x));
+  const out = document.getElementById('seq-result');
+  if(arr.length<3){ out.textContent='Enter at least 3 numbers'; return; }
+  const dif = arr[1]-arr[0];
+  const arith = arr.every((v,i)=> i===0 || Math.abs(v-arr[i-1]-dif) < 1e-9);
+  const ratio = arr[0]!==0 ? arr[1]/arr[0] : null;
+  const geom = ratio !== null && arr.every((v,i)=> i===0 || Math.abs(v/arr[i-1]-ratio) < 1e-6);
+  if(arith){ const next = arr[arr.length-1] + dif; out.textContent = `Arithmetic (d=${dif}). Next=${next}`; }
+  else if(geom){ const next = arr[arr.length-1] * ratio; out.textContent = `Geometric (r=${ratio}). Next=${next}`; }
+  else out.textContent = 'No simple arithmetic/geometric pattern detected';
+}
+
+/* Decimal -> fraction */
+function decToFrac(){
+  const v = parseFloat(document.getElementById('decval').value);
+  const out = document.getElementById('decfrac-result');
+  if(isNaN(v)){ out.textContent='Invalid'; return; }
+  const sign = v < 0 ? -1 : 1;
+  let x = Math.abs(v);
+  const maxDen = 10000;
+  let best = null;
+  for(let q=1;q<=maxDen;q++){
+    const p = Math.round(x*q);
+    if(Math.abs(p/q - x) < 1e-9){ best = [p,q]; break; }
+  }
+  if(!best){
+    // continued fraction approximate fallback
+    let q = 1000;
+    let p = Math.round(x*q);
+    const g = (a,b)=>b?g(b,a%b):a;
+    const G = g(p,q);
+    out.textContent = `${sign*(p/G)}/${q/G}`;
+  } else {
+    const p = best[0], q = best[1];
+    const g = (a,b)=>b?g(b,a%b):a;
+    const G = g(p,q);
+    out.textContent = `${sign*(p/G)}/${q/G}`;
+  }
+}
+
+/* Derivative (simple polynomial parser) */
+function derivPoly(){
+  const s = document.getElementById('deriv-expr').value.replace(/\s+/g,'');
+  const out = document.getElementById('deriv-result');
+  // parse terms like Ax^n, Ax, const
+  const terms = s.replace(/\-/g,'+-').split('+').filter(Boolean);
+  const parts = [];
+  terms.forEach(t=>{
+    if(t.includes('x')){
+      const [coefPart, powPart] = t.split('x');
+      let coef = coefPart===''?1:(coefPart==='-')?-1:parseFloat(coefPart);
+      let pow = 1;
+      if(powPart && powPart.startsWith('^')) pow = parseInt(powPart.slice(1),10);
+      const newCoef = coef * pow;
+      const newPow = pow - 1;
+      if(newPow === 0) parts.push(`${newCoef}`);
+      else if(newPow === 1) parts.push(`${newCoef}x`);
+      else parts.push(`${newCoef}x^${newPow}`);
+    } else {
+      // constant -> derivative 0
+    }
+  });
+  out.textContent = parts.length ? parts.join(' + ').replace(/\+\s\-/g,'- ') : '0';
+}
+
+/* Plot 2D */
+function drawPlot(){
+  const fstr = document.getElementById('graph-f').value;
+  const minx = parseFloat(document.getElementById('graph-minx').value);
+  const maxx = parseFloat(document.getElementById('graph-maxx').value);
+  const msg = document.getElementById('graph-msg');
+  const canvas = document.getElementById('graph-canvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  if(isNaN(minx)||isNaN(maxx)||maxx<=minx){ msg.textContent='Invalid range'; return; }
+  // build function safely
+  let expr = fstr.replace(/\^/g,'**').replace(/\bpi\b/ig,'Math.PI').replace(/\be\b/g,'Math.E');
+  expr = expr.replace(/\b(sin|cos|tan|asin|acos|atan|sqrt|abs|log|ln|exp|floor|ceil|round)\b/ig,(m)=>{
+    if(m.toLowerCase()==='ln') return 'Math.log';
+    if(m.toLowerCase()==='log') return 'Math.log10';
+    return 'Math.'+m;
+  });
+  let fun;
+  try{ fun = Function('x','with(Math){return '+expr+';}'); }catch(e){ msg.textContent='Parse error: '+e.message; return; }
+  const W = canvas.width, H = canvas.height;
+  const pts = [];
+  let miny=Infinity, maxy=-Infinity;
+  for(let px=0; px<W; px++){
+    const x = minx + (maxx-minx)*(px)/(W-1);
+    let y;
+    try{ y = fun(x); }catch(e){ y = NaN; }
+    if(!isFinite(y)) { pts.push(null); continue; }
+    pts.push([x,y]); if(y<miny) miny=y; if(y>maxy) maxy=y;
+  }
+  if(miny===Infinity){ msg.textContent='Could not evaluate function across range'; return; }
+  if(Math.abs(maxy-miny) < 1e-6){ miny -= 1; maxy += 1; }
+  // draw axes
+  ctx.strokeStyle = '#bbb'; ctx.lineWidth=1;
+  // y=0
+  const y0 = Math.round((maxy/(maxy-miny))*H);
+  ctx.beginPath(); ctx.moveTo(0, y0); ctx.lineTo(W, y0); ctx.stroke();
+  // x=0
+  const x0 = Math.round((-minx/(maxx-minx))*W);
+  ctx.beginPath(); ctx.moveTo(x0, 0); ctx.lineTo(x0, H); ctx.stroke();
+  // plot curve
+  ctx.strokeStyle = '#2b61c6'; ctx.lineWidth=2;
+  ctx.beginPath();
+  let started=false;
+  for(let i=0;i<pts.length;i++){
+    const p = pts[i];
+    if(!p){ started=false; continue; }
+    const px = i;
+    const py = Math.round((maxy - p[1])/(maxy-miny) * H);
+    if(!started){ ctx.moveTo(px,py); started=true; } else ctx.lineTo(px,py);
+  }
+  ctx.stroke();
+  msg.textContent = '';
+}
+
+/* Matrix tool */
+function matrixTool(){
+  const txt = document.getElementById('matrix-input').value.trim();
+  const op = document.getElementById('matrix-op').value;
+  const out = document.getElementById('matrix-result');
+  try{
+    const rows = txt.split(';').map(r=>r.trim().split(/[ ,]+/).map(Number));
+    if(op==='det'){
+      if(rows.length===2 && rows[0].length===2){
+        const d = rows[0][0]*rows[1][1] - rows[0][1]*rows[1][0];
+        out.textContent = 'Determinant = ' + d;
+      } else if(rows.length===3 && rows[0].length===3){
+        const m = rows;
+        const d = m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1]) - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0]) + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+        out.textContent = 'Determinant = ' + d;
+      } else out.textContent = 'Det only for 2x2 or 3x3';
+    } else if(op==='trans'){
+      const r = rows;
+      const tr = [];
+      for(let c=0;c<r[0].length;c++){ tr.push(r.map(row=>row[c])); }
+      out.textContent = 'Transpose:\n' + tr.map(rr=>rr.join(' ')).join('\n');
+    }
+  }catch(e){ out.textContent = 'Parse error'; }
+}
+
+/* Eigen 2x2 */
+function eigen2x2(){
+  const txt = document.getElementById('eigen-matrix').value.trim();
+  const out = document.getElementById('eigen-output');
+  try{
+    const rows = txt.split(';').map(r=>r.trim().split(/[ ,]+/).map(Number));
+    const a = rows[0][0], b = rows[0][1], c = rows[1][0], d = rows[1][1];
+    const trace = a+d, det = a*d - b*c;
+    const D = trace*trace - 4*det;
+    if(D < 0){
+      out.textContent = `Eigenvalues are complex:\n${(trace/2).toFixed(4)} ± ${ (Math.sqrt(-D)/2).toFixed(4) } i`;
+    } else {
+      const l1 = (trace + Math.sqrt(D))/2, l2 = (trace - Math.sqrt(D))/2;
+      const vec = lambda=>{
+        // solve (A - λI)v = 0, choose v2 = 1 unless degenerate
+        const m00 = a - lambda, m01 = b, m10 = c, m11 = d - lambda;
+        if(Math.abs(m00)+Math.abs(m01) > Math.abs(m10)+Math.abs(m11)){
+          const v2 = 1;
+          const v1 = -(m01)/(m00||1e-9);
+          return `[${v1.toFixed(4)}, ${v2}]`;
+        } else {
+          const v1 = 1;
+          const v2 = -(m10)/(m11||1e-9);
+          return `[${v1}, ${v2.toFixed(4)}]`;
+        }
+      };
+      out.textContent = `λ1=${l1}\nλ2=${l2}\nEigenvector1=${vec(l1)}\nEigenvector2=${vec(l2)}`;
+    }
+  }catch(e){ out.textContent='Parse error'; }
+}
+
+/* Complex arithmetic */
+function complexCalc(){
+  const a = parseFloat(document.getElementById('complex-r1').value||0);
+  const b = parseFloat(document.getElementById('complex-i1').value||0);
+  const c = parseFloat(document.getElementById('complex-r2').value||0);
+  const d = parseFloat(document.getElementById('complex-i2').value||0);
+  const op = document.getElementById('complex-op').value;
+  const out = document.getElementById('complex-result');
+  if([a,b,c,d].some(x=>isNaN(x))){ out.textContent='Fill numbers'; return; }
+  let r,i;
+  if(op==='add'){ r=a+c; i=b+d; }
+  else if(op==='sub'){ r=a-c; i=b-d; }
+  else if(op==='mul'){ r=a*c - b*d; i=a*d + b*c; }
+  else { // div
+    const denom = c*c + d*d;
+    if(denom===0){ out.textContent='Division by zero'; return; }
+    r = (a*c + b*d)/denom; i = (b*c - a*d)/denom;
+  }
+  out.textContent = `Result: ${r.toFixed(6)} ${i>=0?'+':'-'} ${Math.abs(i).toFixed(6)} i`;
+}
+
+/* Triangle solver (handles multiple cases incl. SSA ambiguous) */
+function solveTriangleAll(){
+  const parse = id=>{ const v=document.getElementById(id).value; return v===''?null:parseFloat(v); };
+  let a=parse('tri_a'), b=parse('tri_b'), c=parse('tri_c');
+  let A=parse('tri_A'), B=parse('tri_B'), C=parse('tri_C');
+  const out = document.getElementById('tria-all-result');
+  function sinD(x){return Math.sin(x*Math.PI/180);}
+  function cosD(x){return Math.cos(x*Math.PI/180);}
+  function asinD(x){return Math.asin(x)*180/Math.PI;}
+  function acosD(x){return Math.acos(x)*180/Math.PI;}
+  // minimal validation
+  const knownSides = [a,b,c].filter(x=>x!=null).length;
+  const knownAngles = [A,B,C].filter(x=>x!=null).length;
+  if(knownSides + knownAngles < 3 || knownSides < 1){ out.textContent = 'Need at least 3 values, with at least one side'; return; }
+  // fill angle sum if two angles given
+  if(A==null && B!=null && C!=null) A = 180 - B - C;
+  if(B==null && A!=null && C!=null) B = 180 - A - C;
+  if(C==null && A!=null && B!=null) C = 180 - A - B;
+  let result = '';
+  // SSS
+  if(a!=null && b!=null && c!=null){
+    A = acosD((b*b + c*c - a*a)/(2*b*c));
+    B = acosD((a*a + c*c - b*b)/(2*a*c));
+    C = 180 - A - B;
+    result += `Angles: A=${A.toFixed(4)}°, B=${B.toFixed(4)}°, C=${C.toFixed(4)}°\n`;
+  }
+  // SAS examples
+  else if(a!=null && b!=null && C!=null){
+    c = Math.sqrt(a*a + b*b - 2*a*b*cosD(C));
+    A = asinD(a*sinD(C)/c);
+    B = 180 - A - C;
+    result += `c=${c.toFixed(6)}\nA=${A.toFixed(4)}°, B=${B.toFixed(4)}°, C=${C.toFixed(4)}°\n`;
+  } else if(a!=null && c!=null && B!=null){
+    b = Math.sqrt(a*a + c*c - 2*a*c*cosD(B));
+    A = asinD(a*sinD(B)/b);
+    C = 180 - A - B;
+    result += `b=${b.toFixed(6)}\nA=${A.toFixed(4)}°, B=${B.toFixed(4)}°, C=${C.toFixed(4)}°\n`;
+  } else if(b!=null && c!=null && A!=null){
+    a = Math.sqrt(b*b + c*c - 2*b*c*cosD(A));
+    B = asinD(b*sinD(A)/a);
+    C = 180 - A - B;
+    result += `a=${a.toFixed(6)}\nA=${A.toFixed(4)}°, B=${B.toFixed(4)}°, C=${C.toFixed(4)}°\n`;
+  }
+  // ASA/AAS
+  else if(A!=null && B!=null && c!=null){
+    C = 180 - A - B;
+    a = c * sinD(A)/sinD(C);
+    b = c * sinD(B)/sinD(C);
+    result += `a=${a.toFixed(6)} b=${b.toFixed(6)} c=${c.toFixed(6)}\nA=${A}°,B=${B}°,C=${C}°\n`;
+  } else if(A!=null && C!=null && b!=null){
+    B = 180 - A - C;
+    a = b * sinD(A)/sinD(B);
+    c = b * sinD(C)/sinD(B);
+    result += `a=${a.toFixed(6)} b=${b.toFixed(6)} c=${c.toFixed(6)}\nA=${A}°,B=${B}°,C=${C}°\n`;
+  } else if(B!=null && C!=null && a!=null){
+    A = 180 - B - C;
+    b = a * sinD(B)/sinD(A);
+    c = a * sinD(C)/sinD(A);
+    result += `a=${a.toFixed(6)} b=${b.toFixed(6)} c=${c.toFixed(6)}\nA=${A}°,B=${B}°,C=${C}°\n`;
+  }
+  // SSA ambiguous (attempt)
+  else {
+    // try typical SSA patterns
+    let handled=false;
+    if(a!=null && b!=null && A!=null){
+      const ratio = b * sinD(A)/a;
+      if(ratio < -1 || ratio > 1){ out.textContent = 'No triangle possible (SSA)'; return; }
+      const B1 = asinD(ratio), B2 = 180 - B1;
+      const C1 = 180 - A - B1, C2 = 180 - A - B2;
+      const c1 = a * sinD(C1)/sinD(A), c2 = a * sinD(C2)/sinD(A);
+      result += `Solution1: B=${B1.toFixed(4)}°, C=${C1.toFixed(4)}°, c=${c1.toFixed(6)}\n`;
+      if(B2>0 && C2>0) result += `Solution2: B=${B2.toFixed(4)}°, C=${C2.toFixed(4)}°, c=${c2.toFixed(6)}\n`;
+      handled=true;
+    }
+    if(!handled){ result += 'Case not covered automatically; please provide a solvable combination (e.g. SSS, SAS, ASA, AAS, or SSA)'; }
+  }
+  // area/heights
+  if(a!=null && b!=null && c!=null){
+    const s = (a+b+c)/2;
+    const area = Math.sqrt(Math.max(0,s*(s-a)*(s-b)*(s-c)));
+    result += `Area = ${area.toFixed(6)}\nHeights: ha=${(2*area/a).toFixed(6)}, hb=${(2*area/b).toFixed(6)}, hc=${(2*area/c).toFixed(6)}\n`;
+  }
+  out.textContent = result;
+}
+
+/* Percent */
+function percentCalc(){ const p=+document.getElementById('perc-part').value, w=+document.getElementById('perc-whole').value; document.getElementById('percent-result').textContent = isNaN(p)||isNaN(w)?'Invalid':(p/100*w); }
+function percentCalc2(){ const n=+document.getElementById('perc-num').value, t=+document.getElementById('perc-total').value; document.getElementById('percent2-result').textContent = isNaN(n)||isNaN(t)||t===0?'Invalid':(100*n/t)+'%'; }
+
+/* Statistics */
+function statTool(){
+  const arr = document.getElementById('stat-numbers').value.replace(/,/g,' ').split(/\s+/).map(Number).filter(x=>!isNaN(x));
+  const out = document.getElementById('stat-result');
+  if(arr.length===0){ out.textContent='Enter numbers'; return; }
+  const mean = arr.reduce((a,b)=>a+b,0)/arr.length;
+  const sorted = arr.slice().sort((a,b)=>a-b);
+  const mid = Math.floor(sorted.length/2);
+  const median = sorted.length%2?sorted[mid]:(sorted[mid-1]+sorted[mid])/2;
+  const counts = {}; let mode = sorted[0], maxc=0;
+  sorted.forEach(v=>{ counts[v]=(counts[v]||0)+1; if(counts[v]>maxc){maxc=counts[v]; mode=v;} });
+  const variance = arr.reduce((s,x)=>s + (x-mean)*(x-mean),0)/arr.length;
+  const stdev = Math.sqrt(variance);
+  out.textContent = `Mean: ${mean}\nMedian: ${median}\nMode: ${mode}\nStd Dev: ${stdev}`;
+}
+
+/* Combinatorics */
+function fact(n){ if(n<2) return 1; let r=1; for(let i=2;i<=n;i++) r*=i; return r; }
+function doComb(){ const n=+document.getElementById('comb-n').value, r=+document.getElementById('comb-r').value, out=document.getElementById('prob-result'); if(isNaN(n)||isNaN(r)||r>n) { out.textContent='Invalid'; return; } out.textContent = `C(${n},${r}) = ${Math.round(fact(n)/(fact(r)*fact(n-r)))}`; }
+function doPerm(){ const n=+document.getElementById('perm-n').value, r=+document.getElementById('perm-r').value, out=document.getElementById('prob-result'); if(isNaN(n)||isNaN(r)||r>n) { out.textContent='Invalid'; return; } out.textContent = `P(${n},${r}) = ${Math.round(fact(n)/fact(n-r))}`; }
+
+/* Primes */
+function findPrimes(){
+  const a = parseInt(document.getElementById('prime-from').value,10);
+  const b = parseInt(document.getElementById('prime-to').value,10);
+  const out = document.getElementById('prime-result');
+  if(isNaN(a)||isNaN(b)||a<1||b<a){ out.textContent='Invalid range'; return; }
+  const max = b;
+  const sieve = new Array(max+1).fill(true); sieve[0]=sieve[1]=false;
+  for(let i=2;i*i<=max;i++) if(sieve[i]) for(let j=i*i;j<=max;j+=i) sieve[j]=false;
+  const res = [];
+  for(let i=Math.max(2,a); i<=b; i++) if(sieve[i]) res.push(i);
+  out.textContent = res.join(', ') || 'No primes';
+}
+
+/* Units */
+const unitTable = { m:1, km:1000, cm:0.01, mi:1609.344, ft:0.3048, in:0.0254 };
+function convertUnits(){
+  const v = parseFloat(document.getElementById('unit-value').value);
+  const f = document.getElementById('unit-from').value;
+  const t = document.getElementById('unit-to').value;
+  const out = document.getElementById('unit-result');
+  if(isNaN(v)){ out.textContent='Enter a number'; return; }
+  const val = v * unitTable[f] / unitTable[t];
+  out.textContent = `${v} ${f} = ${val} ${t}`;
+}
+
+/* Physics solver (simple) */
+function physSolver(){
+  const eq = document.getElementById('phys-eq').value;
+  const raw = document.getElementById('phys-vars').value;
+  const map = {};
+  raw.split(',').map(s=>s.trim()).forEach(pair=>{
+    const parts = pair.split('=');
+    if(parts.length===2) map[parts[0].trim()] = parts[1].trim();
+  });
+  const out = document.getElementById('phys-result');
+  const get = k=> map[k]==='?' ? undefined : parseFloat(map[k]);
+  let res = 'Provide unknown as ?';
+  if(eq==='fma'){
+    if(map['F']==='?') res = `F = m*a = ${get('m')*get('a')}`;
+    else if(map['m']==='?') res = `m = F/a = ${get('F')/get('a')}`;
+    else if(map['a']==='?') res = `a = F/m = ${get('F')/get('m')}`;
+  } else if(eq==='pe'){
+    if(map['PE']==='?') res = `PE = m*g*h = ${get('m')*get('g')*get('h')}`;
+    else if(map['m']==='?') res = `m = PE/(g*h) = ${get('PE')/(get('g')*get('h'))}`;
+  } else if(eq==='ke'){
+    if(map['KE']==='?') res = `KE = 0.5*m*v^2 = ${0.5*get('m')*get('v')*get('v')}`;
+  } else if(eq==='ohm'){
+    if(map['V']==='?') res = `V = I*R = ${get('I')*get('R')}`;
+    else if(map['I']==='?') res = `I = V/R = ${get('V')/get('R')}`;
+  }
+  out.textContent = res;
+}
+
+/* Euclid prime proof step */
+function primeProofStep(){
+  const raw = document.getElementById('pp-primes').value;
+  const arr = raw.replace(/[^0-9,]/g,'').split(',').map(Number).filter(x=>!isNaN(x) && x>1);
+  const Qout = document.getElementById('pp-Q');
+  const result = document.getElementById('pp-result');
+  if(arr.length===0){ Qout.textContent=''; result.textContent='Enter primes'; return; }
+  const prod = arr.reduce((a,b)=>a*b,1);
+  const Q = prod + 1;
+  Qout.textContent = 'Q = ' + Q;
+  // find small factor
+  let pf = null;
+  for(let i=2;i*i<=Q;i++) if(Q%i===0){ pf=i; break; }
+  if(pf) result.innerHTML = `Q is composite, factor ${pf} (not in your list)`;
+  else result.innerHTML = `Q is prime (not in your list)`;
+}
+
+/* LaTeX render */
+function renderLatex(){
+  const txt = document.getElementById('latex-input').value;
+  const out = document.getElementById('latex-output');
+  try{ katex.render(txt, out, {throwOnError:false, displayMode:true}); } catch(e){ out.textContent = 'Error: '+e.message; }
+}
+
+/* 3D plot demo */
+function plot3d(){
+  const expr = document.getElementById('plot3d-f').value;
+  const cvs = document.getElementById('plot3d-canvas');
+  const ctx = cvs.getContext('2d'); ctx.clearRect(0,0,cvs.width,cvs.height);
+  // simple visual mapping: compute z and color, draw points
+  let safe = expr.replace(/\^/g,'**').replace(/\bpi\b/ig,'Math.PI').replace(/\be\b/ig,'Math.E');
+  safe = safe.replace(/\b(sin|cos|tan|sqrt|abs|exp|log|asin|acos|atan)\b/ig,m=>'Math.'+m);
+  let f;
+  try{ f = Function('x','y','with(Math){return ('+safe+');}'); }
+  catch(e){ ctx.fillText('Parse error',10,20); return; }
+  for(let i=0;i<60;i++){
+    for(let j=0;j<60;j++){
+      const x = -5 + 10*i/60;
+      const y = -5 + 10*j/60;
+      let z = f(x,y);
+      if(!isFinite(z)) continue;
+      const col = Math.floor(128 + 120*Math.tanh(z));
+      ctx.fillStyle = `rgb(${col},${200-col},${150})`;
+      const px = Math.round(8 + i*4 + z*0.3);
+      const py = Math.round(8 + j*4 - z*0.4);
+      ctx.fillRect(px,py,3,3);
+    }
+  }
+}
+
+/* Notebook */
+function saveNotes(){ localStorage.setItem('nerd_notes', document.getElementById('notebook').value); document.getElementById('notes-msg').textContent='Saved locally'; setTimeout(()=>document.getElementById('notes-msg').textContent='',1200); }
+function clearNotes(){ document.getElementById('notebook').value=''; localStorage.removeItem('nerd_notes'); document.getElementById('notes-msg').textContent='Cleared'; setTimeout(()=>document.getElementById('notes-msg').textContent='',1200); }
+
+/* Triangle gate: generate question and check */
+let trigAns = 0;
+function triangleGate(){
+  // produce sin/cos/tan(angle) approx
+  const funcs = ['sin','cos','tan'];
+  const f = funcs[Math.floor(Math.random()*funcs.length)];
+  let angle = Math.floor(Math.random()*60)+10; // 10..69
+  if(f==='tan' && (angle%90===0)) angle++;
+  let value = Math[f](angle*Math.PI/180);
+  trigAns = +value.toFixed(3);
+  document.getElementById('trig-question').textContent = `${f}(${angle}°) ≈ ? (3 decimals)`;
+  document.getElementById('trig-user-answer').value = '';
+  document.getElementById('trig-feedback').textContent = '';
+  // show gate area and scroll
+  document.getElementById('triangle-gate').style.display='block';
+  document.getElementById('triangle-gate').scrollIntoView({behavior:'smooth'});
+}
+function checkTrigAnswer(){
+  const v = parseFloat(document.getElementById('trig-user-answer').value);
+  const fb = document.getElementById('trig-feedback');
+  if(isNaN(v)){ fb.textContent='Enter a number'; return; }
+  if(Math.abs(v - trigAns) < 0.013){ fb.textContent='Correct — unlocking triangle solver'; setTimeout(()=>{ document.getElementById('triangle-gate').style.display='none'; show('triangle'); },700); }
+  else fb.textContent='Not quite — try again (3 decimals)';
+}
+
+/* Bootstrap: build index and set initial view */
+window.addEventListener('DOMContentLoaded', ()=>{
+  buildIndex();
+  // make formulas active initially
+  show('formulas');
+  // load notes if any
+  const n = localStorage.getItem('nerd_notes'); if(n) document.getElementById('notebook').value = n;
+  // wire search input live
+  searchBar.addEventListener('input', ()=>{ setTimeout(liveSearch,0); });
+});
+</script>
+</body>
+</html>
