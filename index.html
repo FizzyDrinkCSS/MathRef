@@ -224,7 +224,7 @@
       <button onclick="show('plot3d')">3D Surface Demo</button>
     </details>
     <details><summary>Notes & Links</summary>
-      <button onclick="show('notebook')">Nerd Notes</button>
+      <button onclick="show('notebook')">Notes? (useless)</button>
       <button onclick="show('college')">College Links</button>
     </details>
   </nav>
@@ -370,12 +370,10 @@
   </ul>
 </details>
 <details>
-  <summary>Advanced (Analysis, Physics, Theorems)</summary>
+  <summary>Advanced (Analysis, Physics)</summary>
   <ul>
     <li><b>Fourier Transform:</b> <code class="inline">F(ω) = ∫_{−∞}^∞ f(t)e^{-iωt}dt</code></li>
     <li><b>Laplace Transform:</b> <code class="inline">L{f(t)} = ∫₀^∞ e^{-st}f(t)dt</code></li>
-    <li><b>Stokes’ Theorem:</b> <code class="inline">∬_S curl F · dS = ∮_∂S F · dr</code></li>
-    <li><b>Green’s Theorem:</b> <code class="inline">∮_C (L dx + M dy) = ∬_R (∂M/∂x − ∂L/∂y) dA</code></li>
     <li><b>Cauchy-Riemann Equations:</b> <code class="inline">∂u/∂x = ∂v/∂y, ∂u/∂y = -∂v/∂x</code></li>
     <li><b>Schrödinger Equation:</b> <code class="inline">iħ∂Ψ/∂t = -ħ²/2m ∇²Ψ + VΨ</code></li>
     <li><b>Special Relativity (Einstein):</b> <code class="inline">E = mc²</code></li>
@@ -386,6 +384,69 @@
     <li><b>Bessel Equation:</b> <code class="inline">x²y'' + xy' + (x²-ν²)y = 0</code></li>
   </ul>
 </details>
+         <details open>
+  <summary>Theorems</summary>
+  <ul>
+    <!-- Algebra & Number Theory --> 
+    <li><b>Pythagorean Theorem:</b> <code class="inline">a² + b² = c²</code> (Right triangles)</li>
+    <li><b>Fundamental Theorem of Algebra:</b> Every non-zero, degree n polynomial has n complex roots.</li>
+    <li><b>Chinese Remainder Theorem:</b> Simultaneous congruence systems with coprime moduli have a unique solution modulo product.</li>
+    <li><b>Fermat's Little Theorem:</b> <code class="inline">a^p ≡ a (mod p)</code> for primes p.</li>
+    <li><b>Quadratic Reciprocity:</b> Describes which primes are quadratic residues.</li>
+    <li><b>Rational Root Theorem:</b> Rational roots of a polynomial with integer coefficients are fractions of factors of the constant/leading term.</li>
+    <li><b>Bézout's Theorem (Algebraic Geometry):</b> The number of intersection points of two projective plane algebraic curves is the product of their degrees (with multiplicity).</li>
+    <li><b>Vandermonde's Theorem:</b> Useful for combinatorics and determinants.</li>
+    <!-- Geometry -->
+    <li><b>Ceva’s Theorem:</b> Proportionality of segments for concurrency in triangles.</li>
+    <li><b>Menelaus’ Theorem:</b> Used to check collinearity of points on triangle sides.</li>
+    <li><b>Ptolemy’s Theorem:</b> In a cyclic quadrilateral, <code class="inline">ac + bd = ef</code> (diagonals and sides relation).</li>
+    <li><b>Euler’s Line:</b> In any triangle, the centroid, circumcenter, and orthocenter are collinear.</li>
+    <li><b>Euler’s Polyhedron Formula:</b> <code class="inline">V - E + F = 2</code> for convex polyhedra.</li>
+    <li><b>Napoleon’s Theorem:</b> Equilateral triangles on a triangle’s sides' centers form an equilateral triangle.</li>
+    <li><b>Pick's Theorem:</b> For lattice polygons: <code class="inline">A = I + B/2 - 1</code> (I = interior, B = boundary points)</li>
+    <!-- Calculus & Analysis -->
+    <li><b>Fundamental Theorem of Calculus:</b> Integration and differentiation are inverse ops.</li>
+    <li><b>Mean Value Theorem:</b> <code class="inline">f'(c) = [f(b) - f(a)]/(b - a)</code> for some c in [a, b].</li>
+    <li><b>Intermediate Value Theorem:</b> For continuous functions, all intermediate values are hit.</li>
+    <li><b>Taylor's Theorem:</b> Any function can locally be approximated by a polynomial (Taylor series).</li>
+    <li><b>Weierstrass Approximation Theorem:</b> Every continuous function on a closed interval can be uniformly approximated by polynomials.</li>
+    <li><b>Bolzano–Weierstrass Theorem:</b> Every bounded sequence in ℝⁿ has a convergent subsequence.</li>
+    <li><b>Rolle’s Theorem:</b> Smooth function with equal values at endpoints has a zero slope between.</li>
+    <li><b>Extreme Value Theorem:</b> Continuous function on closed interval reaches its min and max.</li>
+    <li><b>L'Hospital’s Rule:</b> For 0/0 or ∞/∞ indeterminate forms, use derivatives.</li>
+    <li><b>Fubini’s Theorem:</b> Double integrals can be computed via repeated integrals.</li>
+    <li><b>Green’s Theorem, Stokes’ Theorem, Divergence Theorem:</b> Relating integral of derivatives on volumes/surfaces/boundaries.</li>
+    <li><b>Cauchy Integral Theorem:</b> (Complex analysis) The integral of a holomorphic function around a closed curve is zero.</li>
+    <li><b>Cauchy-Schwarz Inequality:</b> |a·b| ≤ ||a||·||b||</li>
+    <li><b>Parseval’s Theorem:</b> Relates sum of squares to integral (Fourier analysis).</li>
+    <li><b>Riesz Representation Theorem:</b> In Hilbert space, every continuous linear functional is an inner product with a fixed vector.</li>
+    <!-- Probability & Statistics -->
+    <li><b>Law of Large Numbers:</b> Sample mean approaches population mean as samples increase.</li>
+    <li><b>Central Limit Theorem:</b> The sum of many independent variables approaches a normal distribution.</li>
+    <li><b>Bayes’ Theorem:</b> <code class="inline">P(A|B) = [P(B|A)P(A)] / P(B)</code></li>
+    <!-- Topology & Algebra -->
+    <li><b>Jordan Curve Theorem:</b> A simple closed curve divides the plane into interior and exterior.</li>
+    <li><b>Brouwer Fixed Point Theorem:</b> Any continuous function from a closed disc to itself has a fixed point.</li>
+    <li><b>Urysohn's Lemma:</b> Separation of closed sets in normal spaces.</li>
+    <li><b>Noether’s Theorem:</b> Every differentiable symmetry relates to a conservation law in physics.</li>
+    <li><b>Zorn’s Lemma:</b> A partially ordered set in which every chain has an upper bound contains at least one maximal element.</li>
+    <li><b>Banach Fixed Point Theorem:</b> Contracting maps in a complete metric space have a unique fixed point.</li>
+    <li><b>Baire Category Theorem:</b> Complete metric space cannot be written as a countable union of nowhere-dense sets.</li>
+    <!-- Logic & Foundational -->
+    <li><b>Gödel’s Incompleteness Theorems:</b> There are true mathematical statements that cannot be proven within any consistent formal system.</li>
+    <li><b>Cantor’s Theorem:</b> The power set of a set has strictly greater cardinality than the set itself.</li>
+    <li><b>Sylow’s Theorems:</b> Existence and properties of p-subgroups in group theory.</li>
+    <li><b>Burnside’s Lemma:</b> Counting distinct objects under group action.</li>
+    <li><b>Pigeonhole Principle:</b> If n items are put into m < n containers, some container gets two or more items.</li>
+    <li><b>Kuratsowski's Theorem:</b> Characterizes planar graphs.</li>
+    <li><b>Ramsey’s Theorem:</b> Complete disorder is impossible in large enough structures.</li>
+    <li><b>Erdős–Ko–Rado Theorem</b>: Maximum size of intersecting family of sets.</li>
+    <li><b>Hahn–Banach Theorem:</b> Extension of linear functionals in normed vector spaces.</li>
+    <li><b>Stone–Weierstrass Theorem:</b> Generalization of Weierstrass Approximation for algebras of functions.</li>
+    <li><b>Stokes’ Theorem:</b> <code class="inline">∬_S curl F · dS = ∮_∂S F · dr</code></li>
+    <li><b>Green’s Theorem:</b> <code class="inline">∮_C (L dx + M dy) = ∬_R (∂M/∂x − ∂L/∂y) dA</code></li>
+  </ul>
+</details> 
         </div>
       </section>
 
