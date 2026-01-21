@@ -186,8 +186,9 @@
 
 <div id="main-wrap">
   <nav id="sidebar" aria-label="Navigation">
-    <details open><summary>Algebra</summary>
+    <details open><summary>Formulas</summary>
       <button onclick="show('formulas')">Formula Compendium</button>
+    <details open><summary>Algebra</summary>
       <button onclick="show('calc')">Calculator</button>
       <button onclick="show('quad')">Quadratic Solver</button>
       <button onclick="show('factoring')">Factorizer</button>
@@ -234,50 +235,157 @@
       <section id="formulas-section" class="tool">
         <h2>Formula Compendium</h2>
         <div>
-          <details open><summary>Algebra</summary>
-            <ul>
-              <li><b>Quadratic Formula:</b> <code class="inline">x = [-b ± √(b²-4ac)] / (2a)</code></li>
-              <li><b>Vieta:</b> <code class="inline">r₁+r₂ = -b/a, r₁r₂ = c/a</code></li>
-              <li><b>Discriminant:</b> <code class="inline">D = b² - 4ac</code></li>
-              <li><b>Factor:</b> <code class="inline">a²-b²=(a-b)(a+b)</code></li>
-              <li><b>Binomial:</b> <code class="inline">(a+b)^n = Σ C(n,k) a^{n-k} b^k</code></li>
-            </ul>
-          </details>
-          <details><summary>Geometry</summary>
-            <ul>
-              <li><b>Circle area:</b> <code class="inline">A = πr²</code></li>
-              <li><b>Triangle area:</b> <code class="inline">A = ½ b h</code></li>
-              <li><b>Heron:</b> <code class="inline">A = √[s(s-a)(s-b)(s-c)]</code></li>
-            </ul>
-          </details>
-          <details><summary>Trigonometry</summary>
-            <ul>
-              <li><b>SOHCAHTOA</b>: <code class="inline">sin=opp/hyp, cos=adj/hyp, tan=opp/adj</code></li>
-              <li><b>Law of Sines:</b> <code class="inline">sinA/a = sinB/b = sinC/c</code></li>
-              <li><b>Law of Cosines:</b> <code class="inline">c²=a²+b²-2ab cos C</code></li>
-            </ul>
-          </details>
-          <details><summary>Calculus</summary>
-            <ul>
-              <li><b>Power Rule:</b> <code class="inline">d/dx xⁿ = n x^{n-1}</code></li>
-              <li><b>Product Rule:</b> <code class="inline">d(uv)=u'v+uv'</code></li>
-              <li><b>Chain Rule:</b> <code class="inline">d/dx f(g(x)) = f'(g(x)) g'(x)</code></li>
-              <li><b>Integral:</b> <code class="inline">∫ xⁿ dx = x^{n+1}/(n+1) + C</code></li>
-            </ul>
-          </details>
-          <details><summary>Linear Algebra</summary>
-            <ul>
-              <li><b>Det 2×2:</b> <code class="inline">det([[a,b],[c,d]]) = ad - bc</code></li>
-              <li><b>Eigen:</b> <code class="inline">det(A - λI) = 0</code></li>
-            </ul>
-          </details>
-          <details><summary>Statistics</summary>
-            <ul>
-              <li><b>Mean:</b> <code class="inline">μ = Σxᵢ / n</code></li>
-              <li><b>Variance:</b> <code class="inline">σ² = Σ(xᵢ - μ)² / n</code></li>
-              <li><b>Combinations:</b> <code class="inline">C(n,k) = n! / (k!(n-k)!)</code></li>
-            </ul>
-          </details>
+         <details open>
+  <summary>Algebra</summary>
+  <ul>
+    <li><b>Linear:</b> <code class="inline">ax + b = 0 ⇒ x = -b/a</code> <i>(Isolate x and solve simple equations)</i></li>
+    <li><b>Quadratic:</b> <code class="inline">x = [-b ± √(b²-4ac)]/(2a)</code></li>
+    <li><b>Cubic (Cardano’s):</b> <code class="inline">x = (cube root)[...] (Formula is complex)</code> <i>(Use only if necessary)</i></li>
+    <li><b>Factoring:</b> <code class="inline">a²-b² = (a-b)(a+b)</code></li>
+    <li><b>Binomial Theorem:</b> <code class="inline">(a+b)^n = Σ C(n,k) a^{n-k} b^k</code></li>
+    <li><b>Polynomial Remainder:</b> <code class="inline">f(a) = remainder of f(x)/(x-a)</code></li>
+    <li><b>Vieta's:</b> <code class="inline">r₁ + r₂ = -b/a, r₁r₂ = c/a</code> <i>(Quadratics)</i></li>
+    <li><b>Symmetric Sums:</b> <code class="inline">x+y+z = -b/a, xy+yz+zx = c/a, xyz = -d/a</code> <i>(cubics)</i></li>
+    <li><b>Arithmetic Sum:</b> <code class="inline">Sₙ = n(a₁ + aₙ)/2</code></li>
+    <li><b>Geometric Sum:</b> <code class="inline">Sₙ = a(1 - rⁿ)/(1 - r)</code></li>
+    <li><b>Log Laws:</b> <code class="inline">log(ab)=log a + log b</code>, <code class="inline">log(a^b) = b log a</code></li>
+  </ul>
+</details>
+<details>
+  <summary>Geometry</summary>
+  <ul>
+    <li><b>Triangle Area:</b> <code class="inline">A = ½ b h</code></li>
+    <li><b>Heron's:</b> <code class="inline">A = √[s(s-a)(s-b)(s-c)]</code>, <i>where</i> <code class="inline">s = (a+b+c)/2</code></li>
+    <li><b>Circle Area:</b> <code class="inline">A = πr²</code></li>
+    <li><b>Circle Circumference:</b> <code class="inline">C = 2πr</code></li>
+    <li><b>Arc Length:</b> <code class="inline">L = rθ</code> <i>(θ in radians)</i></li>
+    <li><b>Sector Area:</b> <code class="inline">A = ½ r²θ</code></li>
+    <li><b>Rectangle/Square:</b> <code class="inline">A = l·w</code>, <code class="inline">P = 2(l+w)</code></li>
+    <li><b>Polygon (n sides):</b> <code class="inline">Sum of angles = 180°(n-2)</code></li>
+    <li><b>Volume (sphere):</b> <code class="inline">V = (4/3)πr³</code></li>
+    <li><b>Volume (cylinder):</b> <code class="inline">V = πr²h</code></li>
+    <li><b>Pythagoras:</b> <code class="inline">a²+b²=c²</code></li>
+    <li><b>Euler’s Formula for polyhedra:</b> <code class="inline">V - E + F = 2</code></li>
+    <li><b>Volume (cone):</b> <code class="inline">V = (1/3)πr²h</code></li>
+    <li><b>Volume (pyramid):</b> <code class="inline">V = (1/3)Bh</code> <i>(B = base area)</i></li>
+  </ul>
+</details>
+<details>
+  <summary>Trigonometry</summary>
+  <ul>
+    <li><b>SOHCAHTOA:</b> <code class="inline">sin = opp/hyp, cos = adj/hyp, tan = opp/adj</code></li>
+    <li><b>Pythagorean Identity:</b> <code class="inline">sin²θ + cos²θ = 1</code></li>
+    <li><b>Law of Sines:</b> <code class="inline">sinA/a = sinB/b = sinC/c</code></li>
+    <li><b>Law of Cosines:</b> <code class="inline">c²=a²+b²-2ab cosC</code></li>
+    <li><b>Angle Addition:</b> <code class="inline">sin(a±b) = sin a cos b ± cos a sin b</code></li>
+    <li><b>Double Angle:</b> <code class="inline">sin 2θ = 2 sin θ cos θ</code></li>
+    <li><b>Sum-to-Product:</b> <code class="inline">sin a + sin b = 2 sin[(a+b)/2] cos[(a-b)/2]</code></li>
+    <li><b>Unit Circle:</b> <code class="inline">x = cos θ, y = sin θ</code></li>
+    <li><b>Radians/Degrees:</b> <code class="inline">radians = degrees × π/180</code></li>
+    <li><b>Polar to Rectangular:</b> <code class="inline">x = r cos θ, y = r sin θ</code></li>
+  </ul>
+</details>
+<details>
+  <summary>Calculus</summary>
+  <ul>
+    <li><b>Derivative (power rule):</b> <code class="inline">d/dx xⁿ = n x^{n-1}</code></li>
+    <li><b>Product Rule:</b> <code class="inline">d/dx [uv] = u'v + uv'</code></li>
+    <li><b>Quotient Rule:</b> <code class="inline">d/dx [u/v] = (u'v - uv')/v²</code></li>
+    <li><b>Chain Rule:</b> <code class="inline">d/dx f(g(x)) = f'(g(x)) g'(x)</code></li>
+    <li><b>Integral of power:</b> <code class="inline">∫xⁿ dx = x^{n+1}/(n+1) + C</code></li>
+    <li><b>Definite Integral:</b> <code class="inline">∫ₐᵇ f(x) dx = F(b) - F(a)</code></li>
+    <li><b>Partial derivative:</b> <code class="inline">∂f/∂x</code></li>
+    <li><b>Taylor Series:</b> <code class="inline">f(x) = Σ [f⁽ⁿ⁾(a)/n!](x-a)ⁿ</code></li>
+    <li><b>L'Hospital’s Rule:</b> <code class="inline">lim(f/g) = lim(f'/g')</code></li>
+    <li><b>Fundamental Theorem:</b> <code class="inline">d/dx ∫ₐˣ f(t)dt = f(x)</code></li>
+    <li><b>Gradient:</b> <code class="inline">∇f = (∂f/∂x, ∂f/∂y, ...)</code></li>
+    <li><b>Divergence:</b> <code class="inline">div F = ∇·F</code></li>
+    <li><b>Curl:</b> <code class="inline">curl F = ∇×F</code></li>
+  </ul>
+</details>
+<details>
+  <summary>Linear Algebra</summary>
+  <ul>
+    <li><b>Determinant 2x2:</b> <code class="inline">det([[a,b],[c,d]]) = ad-bc</code></li>
+    <li><b>Determinant 3x3:</b> <code class="inline">det(A) = Σ(...) (use rule of Sarrus or cofactors)</code></li>
+    <li><b>Inverse 2x2:</b> <code class="inline">A⁻¹ = (1/det)·[[d,−b],[−c,a]]</code></li>
+    <li><b>Matrix Multiplication:</b> <code class="inline">(AB)_{ij} = Σ_k A_{ik}B_{kj}</code></li>
+    <li><b>Dot Product:</b> <code class="inline">a·b = Σ aᵢbᵢ</code></li>
+    <li><b>Cross Product:</b> <code class="inline">a×b = (a₂b₃-a₃b₂, a₃b₁-a₁b₃, a₁b₂-a₂b₁)</code></li>
+    <li><b>Eigenvalues:</b> <code class="inline">det(A - λI) = 0</code></li>
+    <li><b>Row Echelon:</b> <code class="inline">RREF through row ops</code></li>
+  </ul>
+</details>
+<details>
+  <summary>Statistics & Probability</summary>
+  <ul>
+    <li><b>Mean:</b> <code class="inline">μ = Σxᵢ / n</code></li>
+    <li><b>Median:</b> <code class="inline">Middle value (sorted list)</code></li>
+    <li><b>Standard Deviation:</b> <code class="inline">σ = √Variance</code></li>
+    <li><b>Variance:</b> <code class="inline">σ² = Σ(xᵢ-μ)² / n</code></li>
+    <li><b>Combinations:</b> <code class="inline">C(n,k) = n!/(k!(n-k)!)</code></li>
+    <li><b>Permutations:</b> <code class="inline">P(n,k) = n!/(n-k)!</code></li>
+    <li><b>Probability:</b> <code class="inline">P = (# successes)/(# total outcomes)</code></li>
+    <li><b>Bayes’ Theorem:</b> <code class="inline">P(A|B) = P(B|A)P(A)/P(B)</code></li>
+    <li><b>Normal Distribution:</b> <code class="inline">f(x) = 1/(σ√2π) e^{-(x-μ)²/2σ²}</code></li>
+    <li><b>Z-score:</b> <code class="inline">z = (x-μ)/σ</code></li>
+    <li><b>Expected Value:</b> <code class="inline">E[X] = Σ xᵢpᵢ</code></li>
+  </ul>
+</details>
+<details>
+  <summary>Set Theory & Logic</summary>
+  <ul>
+    <li><b>Union:</b> <code class="inline">A ∪ B = {x: x ∈ A or x ∈ B}</code></li>
+    <li><b>Intersection:</b> <code class="inline">A ∩ B = {x: x ∈ A and x ∈ B}</code></li>
+    <li><b>Complement:</b> <code class="inline">A' = {x: x ∉ A}</code></li>
+    <li><b>Difference:</b> <code class="inline">A \\ B = {x: x ∈ A and x ∉ B}</code></li>
+    <li><b>Subset:</b> <code class="inline">A ⊆ B</code></li>
+    <li><b>Truth Table logic:</b> <code class="inline">AND (∧), OR (∨), NOT (¬), ⇒, ⇔</code></li>
+    <li><b>Cardinality:</b> <code class="inline">|A| = Number of elements of A</code></li>
+    <li><b>Principle of Inclusion-Exclusion:</b> <code class="inline">|A ∪ B| = |A| + |B| - |A ∩ B|</code></li>
+  </ul>
+</details>
+<details>
+  <summary>Number Theory & Sequences</summary>
+  <ul>
+    <li><b>Arithmetic Sequence:</b> <code class="inline">aₙ = a₁ + (n−1)d</code></li>
+    <li><b>Geometric Sequence:</b> <code class="inline">aₙ = a₁ r^{n−1}</code></li>
+    <li><b>Fibonacci:</b> <code class="inline">Fₙ = Fₙ₋₁ + Fₙ₋₂, F₀=0, F₁=1</code></li>
+    <li><b>Modulo:</b> <code class="inline">a mod n = remainder after division</code></li>
+    <li><b>Prime:</b> <code class="inline">n is only divisible by 1 and n</code></li>
+    <li><b>GCD (Euclidean algorithm):</b> <code class="inline">GCD(a,b) = GCD(b, a mod b)</code></li>
+    <li><b>LCM:</b> <code class="inline">LCM(a, b) = (a⋅b)/GCD(a, b)</code></li>
+  </ul>
+</details>
+<details>
+  <summary>Complex Numbers</summary>
+  <ul>
+    <li><b>Form:</b> <code class="inline">z = a + bi</code> <i>(i² = -1)</i></li>
+    <li><b>Conjugate:</b> <code class="inline">z* = a - bi</code></li>
+    <li><b>Modulus:</b> <code class="inline">|z| = √(a² + b²)</code></li>
+    <li><b>Multiplication:</b> <code class="inline">(a+bi)(c+di) = (ac-bd) + (ad+bc)i</code></li>
+    <li><b>Polar:</b> <code class="inline">z = r e^{iθ}</code></li>
+    <li><b>Euler’s:</b> <code class="inline">e^{ix} = cos x + i sin x</code></li>
+    <li><b>De Moivre’s:</b> <code class="inline">[r e^{iθ}]^n = r^n e^{inθ}</code></li>
+  </ul>
+</details>
+<details>
+  <summary>Advanced (Analysis, Physics, Theorems)</summary>
+  <ul>
+    <li><b>Fourier Transform:</b> <code class="inline">F(ω) = ∫_{−∞}^∞ f(t)e^{-iωt}dt</code></li>
+    <li><b>Laplace Transform:</b> <code class="inline">L{f(t)} = ∫₀^∞ e^{-st}f(t)dt</code></li>
+    <li><b>Stokes’ Theorem:</b> <code class="inline">∬_S curl F · dS = ∮_∂S F · dr</code></li>
+    <li><b>Green’s Theorem:</b> <code class="inline">∮_C (L dx + M dy) = ∬_R (∂M/∂x − ∂L/∂y) dA</code></li>
+    <li><b>Cauchy-Riemann Equations:</b> <code class="inline">∂u/∂x = ∂v/∂y, ∂u/∂y = -∂v/∂x</code></li>
+    <li><b>Schrödinger Equation:</b> <code class="inline">iħ∂Ψ/∂t = -ħ²/2m ∇²Ψ + VΨ</code></li>
+    <li><b>Special Relativity (Einstein):</b> <code class="inline">E = mc²</code></li>
+    <li><b>Newton's Laws:</b> <code class="inline">F = ma</code></li>
+    <li><b>Maxwell's Equations (summed):</b> <code class="inline">∇·E = ρ/ε₀, ∇×E = -∂B/∂t...</code></li>
+    <li><b>Riemann Zeta:</b> <code class="inline">ζ(s) = Σ n^{-s}</code></li>
+    <li><b>Gamma Function:</b> <code class="inline">Γ(n) = ∫₀^∞ x^{n-1} e^{-x} dx</code></li>
+    <li><b>Bessel Equation:</b> <code class="inline">x²y'' + xy' + (x²-ν²)y = 0</code></li>
+  </ul>
+</details>
         </div>
       </section>
 
