@@ -6,9 +6,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css">
   <style>
-	  :root {
-  /* base variables (Default theme) */
-  --bg-page: #f8f8f8;
+:root {
+  --bg-primary: linear-gradient(#e1e1e1 0 1px, #f8f8f8 1px 40px);
   --panel-bg: #fffefd;
   --panel-border: #bbbbcf;
   --accent: #6cbc8b;
@@ -17,49 +16,64 @@
   --sidebar-bg: rgba(239,240,251,0.85);
   --button-bg: #fafacb;
   --result-bg: #fffbe8;
-		  
 }
 
-/* Apply variables to common page elements (tweak selectors to match your markup) */
-html[data-theme] { /* nothing - keep for attribute presence */
-}
+/* Important: force body background to use our CSS variable so themes can override it.
+   Use high-specificity and !important to override other existing background rules. */
+html[data-theme] body,
 body {
+  background: var(--bg-primary) !important;
   color: var(--text);
-  background: linear-gradient(#e1e1e1 0 1px, var(--bg-page) 1px 40px), linear-gradient(90deg,#e1e1e1 0 1px,var(--bg-page) 1px 40px);
 }
 
-/* panels */
-main, .tool, header, #sidebar {
-  background: var(--panel-bg);
-}
-#sidebar {
-  background: var(--sidebar-bg);
-  border-color: var(--panel-border);
-}
-button, .sidebtn {
-  background: var(--button-bg);
-  color: var(--text);
-  border-color: var(--panel-border);
+/* Panels and surfaces */
+html[data-theme] header,
+html[data-theme] main,
+html[data-theme] #sidebar,
+html[data-theme] footer {
+  background: var(--panel-bg) !important;
+  color: var(--text) !important;
+  border-color: var(--panel-border) !important;
 }
 
-/* result boxes */
-.result, .output { background: var(--result-bg); color: var(--text); }
+/* Buttons and inputs */
+html[data-theme] button,
+html[data-theme] .sidebtn {
+  background: var(--button-bg) !important;
+  color: var(--text) !important;
+  border-color: var(--panel-border) !important;
+}
 
-/* THEME: dark */
-html[data-theme="dark"] {
-  --bg-page: #0f1113;
-  --panel-bg: #141717;
-  --panel-border: #222428;
-  --accent: #38bdf8;
+/* Results/output boxes */
+html[data-theme] .result,
+html[data-theme] .output {
+  background: var(--result-bg) !important;
+  color: var(--text) !important;
+}
+
+/* Sidebar background */
+html[data-theme] #sidebar {
+  background: var(--sidebar-bg) !important;
+}
+
+/* Theme presets (set variables when html[data-theme="..."] is present) */
+html[data-theme="default"]{ /* default uses root vars */ }
+
+html[data-theme="dark"]{
+  --bg-primary: linear-gradient(#0b0d0f, #111316);
+  --panel-bg: #0f1416;
+  --panel-border: #22272a;
+  --accent: #66d3ff;
   --muted: #9aa4ad;
-  --text: #e6eef7;
-  --sidebar-bg: rgba(20,23,23,0.88);
-  --button-bg: #1b2b30;
-  --result-bg: #0f2b2b;
+  --text: #e8eef7;
+  --sidebar-bg: rgba(16,18,20,0.92);
+  --button-bg: #162225;
+  --result-bg: #0e2a2d;
 }
-html[data-theme="retro"] {
-  --bg-page: #fff9f0;
-  --panel-bg: #fff2e0;
+
+html[data-theme="retro"]{
+  --bg-primary: linear-gradient(#fff9f0, #fff3e6);
+  --panel-bg: #fff6e8;
   --panel-border: #f0c196;
   --accent: #d34e00;
   --muted: #765b3f;
@@ -69,8 +83,9 @@ html[data-theme="retro"] {
   --result-bg: #fff8e6;
   font-family: "Courier New", Courier, monospace;
 }
-html[data-theme="minimal"] {
-  --bg-page: #ffffff;
+
+html[data-theme="minimal"]{
+  --bg-primary: linear-gradient(#ffffff, #ffffff);
   --panel-bg: #ffffff;
   --panel-border: #efefef;
   --accent: #1e88e5;
@@ -79,47 +94,63 @@ html[data-theme="minimal"] {
   --sidebar-bg: rgba(255,255,255,0.92);
   --button-bg: #f3f6fb;
   --result-bg: #fbfbfb;
-  /* reduce visual clutter */
-  box-shadow: none;
 }
 
-/* fish theme special */
-html[data-theme="fish"] {
-  --bg-page: linear-gradient(180deg,#cfeff9,#e6fff8);
+/* Fish theme: vivid, watery */
+html[data-theme="fish"]{
+  --bg-primary: radial-gradient(circle at 20% 10%, #aee6ff 0%, #eafffb 20%, #f0fff9 50%, #f6ffff 100%);
   --panel-bg: rgba(255,255,255,0.95);
   --panel-border: #9ae7e0;
   --accent: #ff66cc;
   --muted: #2b6f6f;
-  --text: #093a3a;
+  --text: #08393a;
   --sidebar-bg: rgba(225,250,255,0.95);
   --button-bg: #fff7ff;
   --result-bg: #fffbe8;
 }
 
-
+/* Fish overlay container (covers viewport; pointer-events:none so UI remains clickable) */
 .fish-overlay {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
+  perspective: 1200px; /* gives depth for rotateY */
+  overflow: hidden;
 }
+
+/* Each fish wrapper */
 .fish {
   position: absolute;
-  will-change: transform, opacity;
-  transform-origin: center;
-  opacity: 0.95;
-  animation: floatY 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, left, top;
+  opacity: 0.98;
 }
-.fish svg { width: 72px; height: 48px; display:block; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+
+/* Spin around vertical axis (rotateY) - 3D */
+.fish .spin {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  animation: fish-rotateY linear infinite;
 }
-@keyframes floatY {
-  0% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-18px) rotate(12deg); }
-  100% { transform: translateY(0) rotate(0deg); }
+
+/* gentle bobbing */
+.fish .bob {
+  animation: fish-bob ease-in-out infinite;
 }
+
+@keyframes fish-rotateY {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+@keyframes fish-bob {
+  0% { transform: translateY(0) rotateZ(-6deg); }
+  50% { transform: translateY(-10px) rotateZ(6deg); }
+  100% { transform: translateY(0) rotateZ(-6deg); }
+}
+
+/* subtle scale to make fish feel 3d */
+.fish svg { width: 120px; height: 84px; display:block; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); }
 
  html,body{
     height:100%;
@@ -1556,114 +1587,162 @@ window.addEventListener('DOMContentLoaded', ()=>{
   searchBar.addEventListener('input', ()=>{ setTimeout(liveSearch,0); });
 });
 	
+
 function applyTheme(name){
-  const doc = document.documentElement;
-  if(!name || name==='default') {
-    doc.removeAttribute('data-theme');
-  } else {
-    doc.setAttribute('data-theme', name);
-  }
-  // persist
-  try { localStorage.setItem('math_theme', name); } catch(e){}
-  // fish theme special: create/remove fish overlay
+  const html = document.documentElement;
+  if(!name || name === 'default') html.removeAttribute('data-theme');
+  else html.setAttribute('data-theme', name);
+
+  try { localStorage.setItem('math_theme', name); } catch(e) {}
+
   if(name === 'fish') startFishOverlay();
   else removeFishOverlay();
 }
 
-// initialize theme from storage or default
 function initTheme(){
-  let t = null;
-  try { t = localStorage.getItem('math_theme'); } catch(e){}
-  if(!t) t = 'default';
-  applyTheme(t);
+  const stored = (localStorage.getItem('math_theme') || 'default');
+  applyTheme(stored);
 }
 
-// FISH overlay: create multiple animated spinning rainbow fish
+/* -- Fish overlay implementation (detailed SVG + rotateY) -- */
 let _fishOverlay = null;
 function removeFishOverlay(){
   if(_fishOverlay && _fishOverlay.parentNode) _fishOverlay.parentNode.removeChild(_fishOverlay);
   _fishOverlay = null;
+  // remove any resize listeners if attached
+  window.removeEventListener('resize', _fishResizeListener);
 }
+let _fishResizeListener = null;
+
 function startFishOverlay(){
   removeFishOverlay();
   _fishOverlay = document.createElement('div');
   _fishOverlay.className = 'fish-overlay';
   document.body.appendChild(_fishOverlay);
 
-  // fish SVG template (rainbow gradient)
-  const fishSVG = (id) => `
-    <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs>
-        <linearGradient id="g${id}" x1="0" x2="1">
-          <stop offset="0%" stop-color="#ff1a75"/>
-          <stop offset="20%" stop-color="#ff7a1a"/>
-          <stop offset="40%" stop-color="#ffd61a"/>
-          <stop offset="60%" stop-color="#49ff49"/>
-          <stop offset="80%" stop-color="#1ae6ff"/>
-          <stop offset="100%" stop-color="#7a1aff"/>
-        </linearGradient>
-      </defs>
-      <g transform="translate(10,10)">
-        <ellipse cx="50" cy="30" rx="40" ry="22" fill="url(#g${id})" />
-        <polygon points="12,30 0,20 0,40" fill="#fff" opacity="0.12"/>
-        <circle cx="78" cy="24" r="6" fill="#fff" opacity="0.9"/>
-        <circle cx="79" cy="24" r="2.2" fill="#000"/>
-      </g>
-    </svg>
-  `;
+  // highly detailed fish SVG template generator (unique gradient id)
+  function fishSVG(id, scale=1){
+    return `
+      <div style="transform: scale(${scale});">
+        <div class="spin">
+          <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="rainbow-${id}" x1="0" x2="1">
+                <stop offset="0%"  stop-color="#ff2d95"/>
+                <stop offset="18%" stop-color="#ff7a2d"/>
+                <stop offset="36%" stop-color="#ffd22d"/>
+                <stop offset="54%" stop-color="#62e84a"/>
+                <stop offset="72%" stop-color="#1ad3ff"/>
+                <stop offset="90%" stop-color="#8a4eff"/>
+              </linearGradient>
+              <radialGradient id="gloss-${id}" cx="30%" cy="30%" r="60%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+                <stop offset="50%" stop-color="#ffffff" stop-opacity="0.2" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </radialGradient>
+              <linearGradient id="fin-${id}" x1="0" x2="1">
+                <stop offset="0%" stop-color="#fff" stop-opacity="0.9" />
+                <stop offset="100%" stop-color="#ff77a0" stop-opacity="0.12" />
+              </linearGradient>
+              <filter id="shadow-${id}" x="-50%" y="-50%" width="200%" height="200%">
+                <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0b2" flood-opacity="0.12"/>
+              </filter>
+            </defs>
+            <g transform="translate(10,10)">
+              <!-- body -->
+              <ellipse cx="95" cy="60" rx="70" ry="38" fill="url(#rainbow-${id})" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.6"/>
+              <!-- scales pattern for detail (subtle) -->
+              <g opacity="0.14" transform="translate(35,30)">
+                <path d="M0 20 Q10 5 20 20 T40 20" stroke="#ffffff" stroke-width="2" fill="none"></path>
+                <path d="M0 30 Q10 15 20 30 T40 30" stroke="#ffffff" stroke-width="1.6" fill="none"></path>
+              </g>
+              <!-- tail -->
+              <path d="M 20 60 C -6 40, -6 80, 20 60 Z" fill="url(#rainbow-${id})" transform="translate(-12,0) rotate(-8 20 60)"/>
+              <!-- fin -->
+              <path d="M110 30 C130 12, 150 12, 170 28 L150 46 C135 36, 115 36, 110 30 Z" fill="url(#fin-${id})" opacity="0.95" transform="translate(-10,12)"/>
+              <!-- gloss highlight -->
+              <ellipse cx="85" cy="48" rx="32" ry="14" fill="url(#gloss-${id})" />
+              <!-- eye -->
+              <circle cx="128" cy="46" r="10" fill="#fff" />
+              <circle cx="129" cy="46" r="4" fill="#0b0b0b" />
+              <!-- small ornament -->
+              <g transform="translate(50,18) scale(0.6)">
+                <circle cx="0" cy="0" r="6" fill="#fff" opacity="0.6"/>
+                <circle cx="0" cy="0" r="2" fill="#000"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    `;
+  }
 
+  // create N fish scaled and placed randomly
   const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
   const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-
-  const count = Math.max(6, Math.floor(Math.min(vw, vh) / 120)); // number of fish
+  const count = Math.max(6, Math.floor(Math.min(vw, vh) / 120)); // moderate count
   for(let i=0;i<count;i++){
     const f = document.createElement('div');
     f.className = 'fish';
-    // random position
-    const left = Math.random() * 100; // percent
+    // random percent positions (use vw/vh to avoid layout flow)
+    const left = Math.random() * 100;
     const top  = Math.random() * 100;
-    const scale = 0.6 + Math.random() * 1.2;
-    const spinDur = 4 + Math.random()*6;
-    const floatDur = 4 + Math.random()*6;
+    const scale = 0.7 + Math.random() * 1.1;
     f.style.left = left + 'vw';
-    f.style.top = top + 'vh';
-    f.style.transform = `scale(${scale})`;
-    // random animation offsets
-    f.style.animationDuration = `${floatDur}s`;
-    // random spin via inline transform animation
-    const svgId = Date.now().toString(36) + i;
-    f.innerHTML = fishSVG(svgId);
-    // spin the svg element slowly
-    const svgEl = f.querySelector('svg');
-    svgEl.style.animation = `spin ${spinDur}s linear infinite`;
-    // slight random opacity and blur
-    f.style.opacity = 0.85 - Math.random()*0.35;
-    // add slight wobble delay
-    f.style.animationDelay = `${Math.random()*2}s`;
-
+    f.style.top  = top  + 'vh';
+    // random durations for rotateY and bob
+    const spinDur = (6 + Math.random()*8).toFixed(2) + 's';
+    const bobDur  = (4 + Math.random()*6).toFixed(2) + 's';
+    const delay   = (Math.random()*3).toFixed(2) + 's';
+    f.style.zIndex = 2000 + i; // spread z-order
+    // embed svg
+    f.innerHTML = fishSVG(i, scale);
+    // set animations
+    const spinEl = f.querySelector('.spin');
+    const bobEl  = f.querySelector('.spin'); // same group for bobbing
+    // set CSS animation values inline so we can randomize per fish
+    spinEl.style.animationDuration = spinDur;
+    spinEl.style.animationDelay = delay;
+    spinEl.style.animationTimingFunction = 'linear';
+    // bob on wrapper
+    f.querySelector('.spin').classList.add('bob');
+    f.querySelector('.spin').style.animationDuration = bobDur;
+    f.querySelector('.spin').style.animationDelay = delay;
+    // give each fish a slight 3D rotation to start
+    const rotY = (Math.random()*60 - 30); // -30..30 deg
+    f.querySelector('svg').style.transform = `rotateY(${rotY}deg)`; // initial 3d tilt
+    // append
     _fishOverlay.appendChild(f);
-    // animate gentle horizontal drift with CSS transitions (random)
+    // gently drift fish periodically
     (function(el){
       const drift = () => {
         if(!document.body.contains(el)) return;
-        const dx = (Math.random() - 0.5) * 6; // vw drift
-        const dy = (Math.random() - 0.5) * 4; // vh drift
-        const curLeft = parseFloat(el.style.left || 0);
-        const curTop  = parseFloat(el.style.top || 0);
-        el.style.transition = `left ${6+Math.random()*6}s linear, top ${6+Math.random()*6}s linear`;
-        el.style.left = Math.max(0, Math.min(100, curLeft + dx)) + 'vw';
-        el.style.top  = Math.max(0, Math.min(100, curTop + dy)) + 'vh';
-        setTimeout(drift, 4000 + Math.random()*6000);
+        const dx = (Math.random()-0.5)*10; // vw change
+        const dy = (Math.random()-0.5)*6;  // vh change
+        // compute new pos clamped 0..100
+        const curL = parseFloat(el.style.left || 0);
+        const curT = parseFloat(el.style.top || 0);
+        el.style.transition = `left ${6+Math.random()*8}s linear, top ${6+Math.random()*8}s linear`;
+        el.style.left = Math.max(0, Math.min(100, curL + dx)) + 'vw';
+        el.style.top  = Math.max(0, Math.min(100, curT + dy)) + 'vh';
+        setTimeout(drift, 4000 + Math.random()*8000);
       };
-      setTimeout(drift, 1000 + Math.random()*1800);
+      setTimeout(drift, 800 + Math.random()*1600);
     })(f);
   }
+
+  // resize handler to keep on screen if viewport changes
+  _fishResizeListener = () => {
+    // simply remove and restart to reposition nicely
+    // could be optimized to reposition only
+    if(document.documentElement.getAttribute('data-theme') === 'fish'){
+      // keep overlay; do nothing to avoid heavy reflow,
+      // we could reposition fish if wanted
+    } else removeFishOverlay();
+  };
+  window.addEventListener('resize', _fishResizeListener);
 }
 
-// run initTheme on DOM load
-if(document.readyState === 'loading'){
-  document.addEventListener('DOMContentLoaded', initTheme);
-} else initTheme();
-</script>
-</body>
-</html>
+/* init on load */
+if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initTheme);
+else initTheme();
