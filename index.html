@@ -673,10 +673,13 @@ document.addEventListener('keydown', function(event) {
 
 function ABscript() {
 	var win = window.open ()
+	                    win.document.body.style.margin = '0';
+                    win.document.body.style.height = '100vh';
 	var url = "https://fizzydrinkcss.github.io/A-fishy-page-what-a-pun/"
 	var iframe = win.document.createElement('iframe')
 	iframe.style.width = "100%"
 	iframe.style.height = "100%"
+    iframe.style.margin = '0';
 	iframe.style.border = "none"
 	iframe.src = url
 	win.document.body.appendChild(iframe)
