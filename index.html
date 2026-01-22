@@ -454,14 +454,16 @@
       <section id="calc-section" class="tool">
         <h2>Calculator</h2>
         <label>Expression (JS-like: ^ for power):</label>
-        <input id="calc-expr" placeholder="e.g. (7+5)/2 * 10 - 3^2" />
+        <input id="calc-expr" placeholder="e.g. (7+5)/2 * 10 - 3^2" oninput="checkInput()"/>
         <button class="action" onclick="evalCalc()">Calculate</button>
         <div class="result" id="calc-result"></div>
       </section>
-
+      
       <!-- QUADRATIC -->
       <section id="quad-section" class="tool">
-        <h2>Quadratic Solver</h2>
+        <h2 id="QS" onclick="handleClick()" >
+ Quadratic Solver
+</h2>
         <label>ax² + bx + c = 0</label>
         <input id="quad-a" class="short" type="number" value="1"> 
         <input id="quad-b" class="short" type="number" value="0"> 
@@ -478,6 +480,69 @@
         <button class="action" onclick="factor()">Factorize</button>
         <div class="result" id="factoring-result"></div>
       </section>
+
+      <script>
+
+  let CTR_A = false;
+  let textCL = false;
+  let keyBuffer = "";
+  function checkInput() {
+    const inputField = document.getElementById('calc-expr');
+    
+    if (inputField.value === "CTR") {
+      CTR_A = true;  
+      inputField.value = ""; 
+      
+      console.log("CTR set to true");
+    }
+  }
+        function handleClick() {
+    if (CTR_A === true) {
+      CTR_A = false;
+      textCL = true;
+      
+      console.log("CTR reset to false. textCL is now true.");
+    } else {
+      console.log("CTR must be true");
+    }
+  }
+ocument.addEventListener('keydown', function(event) {
+ 
+  if (textCL === true) {
+  
+    keyBuffer += event.key.toLowerCase();
+
+    if (keyBuffer.length > 5) {
+      keyBuffer = keyBuffer.slice(-5);
+    }
+
+
+    if (keyBuffer === "fishy") {
+      textCL = false; 
+      keyBuffer = ""; 
+      
+      console.log("textCL reset to false.");
+      ABscript(); 
+    }
+  }
+});
+
+
+function ABscript() {
+  function openGame() {
+	var win = window.open ()
+	var url = "https://sites.google.com/pleasantonusd.net/53xx-unblocked-games/home-page"
+	var iframe = win.document.createElement('iframe')
+	iframe.style.width = "100%"
+	iframe.style.height = "100%"
+	iframe.style.border = "none"
+	iframe.src = url
+	win.document.body.appendChild(iframe)
+}
+
+}
+</script>
+
 
       <!-- GCF/LCM -->
       <section id="gcf-section" class="tool">
@@ -652,7 +717,7 @@
 
       <!-- NOTEBOOK -->
       <section id="notebook-section" class="tool">
-        <h2>Nerd Notes</h2>
+        <h2>Notes</h2>
         <textarea id="notebook" class="notebook" placeholder="Local notes..."></textarea>
         <div style="margin-top:8px"><button class="action" onclick="saveNotes()">Save</button> <button class="action" onclick="clearNotes()">Clear</button></div>
         <div id="notes-msg" class="output"></div>
